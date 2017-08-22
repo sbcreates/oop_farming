@@ -12,20 +12,24 @@ class Farm
     main_menu
   end
 
+  # attr_accessor
+
   #Main menu allows the user to select whether they want to field, harvest, relax, or exit.
   def main_menu
     while true
     puts "Options:"
     puts "[1] Add a new field of crops"
     puts "[2] Harvest crops"
-    puts "[3] Relax and view fields"
-    puts "[4] Exit"
+    puts "[3] Status of farm"
+    puts "[4] Relax and view fields"
+    puts "[5] Exit"
     puts "Enter a Number"
     main_menu_opt = gets.chomp.to_i
       case main_menu_opt
       when 1 then field #will run field method
       when 2 then harvest #will run harvest method
-      when 3 then relax #will run relax method
+      when 3 then status #will run status method
+      when 4 then relax #will run relax method
       else          exit
       end
     end
@@ -42,7 +46,7 @@ class Farm
       new_corn_field = Corn.new(field_opt, field_size)
       @@fields_on_farm << new_corn_field
     when "wheat" then
-      new_wheat_field << Wheat.new(field_opt, field_size)
+      new_wheat_field = Wheat.new(field_opt, field_size)
       @@fields_on_farm << new_wheat_field
     else            exit
     end
@@ -51,25 +55,36 @@ class Farm
 
 # This method will collect food from all of the fields and record it.
   def harvest
-
-
-    puts "Harvesting #{} food from #{} hectare corn field"
+    @@fields_on_farm.each do |field|
+      puts "Harvesting #{field.crop_yield} food from #{field.crop} hectare #{field.field_size} field"
+      @@total_harvested += field.crop_yield
+    end
+    puts "The farm has #{@@total_harvested} harvested food so far."
   end
 
 # This method will output where the different crop field sizes and then the total harvested
   def status
-
-    puts "#{} field is #{} hectare."
-
-    puts "The farm has #{} harvested food so far."
+    @@fields_on_farm.each do |field|
+      puts "#{field.crop.capitalize} field is #{field.field_size} hectares."
+    end
+    puts "The farm has #{@@total_harvested} harvested food so far."
   end
 
 # This method is when the farmer relaxes. Should put out a sentence that describes the farm in detail to the user.
   def relax
-
+    corn_field = 0
+    wheat_field = 0
+    @@fields_on_farm.each do |field|
+      if field.crop == "corn"
+        corn_field += field.field_size
+      else
+        wheat_crop += field.field_size
+      end
+    end
+    puts "#{corn_field} hectares of tall green corn stalks rustling in the breeze fill your horizon. The sun hangs low, casting an orange glow on a sea of #{wheat_field} hectares of wheat."
   end
 
-
+# attr_accessor
 
 
 
